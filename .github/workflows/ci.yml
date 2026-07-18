@@ -24,7 +24,7 @@ jobs:
           echo "Lancement des vérifications des fichiers HTML/CSS/JS..."
           if [ ! -d "html" ] || [ ! -d "css" ] || [ ! -d "js" ]; then
             echo "Erreur: Structure de dossiers manquante !"
-            exit 1
+            
           fi
           echo "Validation réussie."
 

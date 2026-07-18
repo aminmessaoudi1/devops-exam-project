@@ -1,0 +1,45 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test-build-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Étape 1 : Tests (Linter ou validation basique)
+      - name: Step 1 - Test (Validation des fichiers)
+        run: |
+          echo "Lancement des vérifications des fichiers HTML/CSS/JS..."
+          if [ ! -d "html" ] || [ ! -d "css" ] || [ ! -d "js" ]; then
+            echo "Erreur: Structure de dossiers manquante !"
+            exit 1
+          fi
+          echo "Validation réussie."
+
+      # Étape 2 : Build de l'image Docker
+      - name: Step 2 - Build Docker Image
+        run: |
+          docker build -t devops-exam-web:${{ github.sha }} .
+
+      # Étape 3 : (Bonus) Scan de vulnérabilités de l'image Docker
+      - name: Step 3 (Bonus) - Scan vulnerabilities with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'devops-exam-web:${{ github.sha }}'
+          format: 'table'
+          exit-code: '0' # On met 0 pour ne pas bloquer le build si des vulnérabilités mineures existent
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'

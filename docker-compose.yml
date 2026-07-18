@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    image: devops-exam-web:latest
+    container_name: devops-exam-web
+    ports:
+      - "8080:80"
+    depends_on:
+      - cache
+    restart: always
+
+  # (Bonus) Service secondaire pour simuler une architecture multi-services
+  cache:
+    image: redis:alpine
+    container_name: devops-exam-cache
+    restart: always

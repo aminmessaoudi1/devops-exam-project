@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DevOps Exam Project est chargé avec succès !');
+    console.log('DevOps Exam Project - Branche Principale (Conflit Résolu) !');
     
     // Animation simple au clic sur la carte
     const card = document.querySelector('.card');

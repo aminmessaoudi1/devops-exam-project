@@ -18,15 +18,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Étape 1 : Tests (Linter ou validation basique)
+            # Étape 1 : Tests (Linter ou validation basique)
       - name: Step 1 - Test (Validation des fichiers)
         run: |
+          exit 1
           echo "Lancement des vérifications des fichiers HTML/CSS/JS..."
-          if [ ! -d "html" ] || [ ! -d "css" ] || [ ! -d "js" ]; then
-            echo "Erreur: Structure de dossiers manquante !"
-            exit 1
-          fi
-          echo "Validation réussie."
+
 
       # Étape 2 : Build de l'image Docker
       - name: Step 2 - Build Docker Image

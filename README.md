@@ -21,3 +21,14 @@ Voici un aperçu des commandes Git principales utilisées au cours du projet :
 - `git push origin <branche>` : Pousser vers GitHub
 - `git checkout -b <branche>` : Créer et basculer sur une nouvelle branche
 - `git merge <branche>` : Fusionner les branches
+
+## Gestion des Conflits
+**Cause du conflit :** 
+Un conflit a été provoqué volontairement dans le fichier `js/main.js` lors de la fusion de la branche `feature-conflict-test` dans `develop`. Les deux branches avaient modifié la même ligne (le `console.log` d'initialisation).
+
+**Méthode de résolution :**
+1. Nous avons examiné le fichier `js/main.js` qui contenait les marqueurs de conflit (`<<<<<<<`, `=======`, `>>>>>>>`).
+2. Nous avons supprimé ces marqueurs.
+3. Nous avons choisi une version finale pour la ligne en question : `console.log('DevOps Exam Project - Branche Principale (Conflit Résolu) !');`.
+4. Nous avons ensuite ajouté le fichier avec `git add js/main.js`.
+5. Enfin, nous avons créé le commit de résolution avec `git commit`.

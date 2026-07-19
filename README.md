@@ -42,3 +42,17 @@ Un conflit a été provoqué volontairement dans le fichier `js/main.js` lors de
 3. Nous avons choisi une version finale pour la ligne en question : `console.log('DevOps Exam Project - Branche Principale (Conflit Résolu) !');`.
 4. Nous avons ensuite ajouté le fichier avec `git add js/main.js`.
 5. Enfin, nous avons créé le commit de résolution avec `git commit`.
+6. ## Git Conflict Resolution
+
+### Conflict Scenario
+A merge conflict was created intentionally between two feature branches:
+- `feature-conflict-demo`: Modified line in `html/index.html` to say "Welcome to My Web Application - Version A"
+- `feature-conflict-demo-2`: Modified the same line to say "Welcome to My DevOps Project - Version B"
+
+### Cause of Conflict
+Both branches modified the same line in the same file (`html/index.html`). When trying to merge both branches into `develop`, Git couldn't automatically determine which change to keep.
+
+### Resolution Method
+1. Merged `feature-conflict-demo` into `develop` first (no conflict)
+2. Attempted to merge `feature-conflict-demo-2` into `develop` (conflict detected)
+3. Git flagged the conflict showing both versions:

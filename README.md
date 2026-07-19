@@ -12,6 +12,16 @@ Il démontre l'utilisation des pratiques de développement collaboratif avec Git
 - `css/` : Feuilles de style
 - `js/` : Scripts JavaScript
 
+## Étapes d'installation (Docker)
+Pour lancer le projet localement avec Docker Compose, suivez ces étapes :
+1. Assurez-vous que Docker et Docker Compose sont installés sur votre machine.
+2. Clonez ce dépôt.
+3. À la racine du projet, exécutez la commande suivante :
+   ```bash
+   docker-compose up -d
+   ```
+4. Ouvrez votre navigateur et accédez à `http://localhost:8080`.
+
 ## Commandes Git Utilisées
 Voici un aperçu des commandes Git principales utilisées au cours du projet :
 - `git init` : Initialiser le dépôt

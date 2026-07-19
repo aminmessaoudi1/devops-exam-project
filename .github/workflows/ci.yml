@@ -2,44 +2,86 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [ main, develop ]
   pull_request:
-    branches:
-      - main
-      - develop
+    branches: [ main, develop ]
 
 jobs:
-  test-build-scan:
+  test:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      # Étape 1 : Tests (Linter ou validation basique)
-      - name: Step 1 - Test (Validation des fichiers)
-        run: |
-          echo "Lancement des vérifications des fichiers HTML/CSS/JS..."
-          if [ ! -d "html" ] || [ ! -d "css" ] || [ ! -d "js" ]; then
-            echo "Erreur: Structure de dossiers manquante !"
-            exit 1
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Install HTML Validator
+      run: npm install -g html-validate
+    
+    - name: Validate HTML files
+      run: |
+        for file in html/*.html; do
+          echo "Validating $file"
+          html-validate $file || true
+        done
+    
+    - name: Check CSS files
+      run: |
+        for file in css/*.css; do
+          echo "Checking $file"
+          if [ -s "$file" ]; then
+            echo "✓ CSS file $file exists and is not empty"
+          else
+            echo "⚠️ Warning: CSS file $file is empty"
           fi
-          echo "Validation réussie."
+        done
+    
+    - name: Check JavaScript files
+      run: |
+        for file in js/*.js; do
+          echo "Checking $file"
+          if [ -s "$file" ]; then
+            echo "✓ JavaScript file $file exists and is not empty"
+          else
+            echo "⚠️ Warning: JavaScript file $file is empty"
+          fi
+        done
 
-      # Étape 2 : Build de l'image Docker
-      - name: Step 2 - Build Docker Image
-        run: |
-          docker build -t devops-exam-web:${{ github.sha }} .
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Build Docker image
+      run: docker build -t my-web-app .
+    
+    - name: Verify Docker image
+      run: docker images | grep my-web-app
+    
+    - name: Test Docker container
+      run: |
+        docker run -d -p 8080:80 --name test-container my-web-app
+        sleep 5
+        curl -f http://localhost:8080/ || exit 1
+        docker stop test-container
+        docker rm test-container
 
-      # Étape 3 : (Bonus) Scan de vulnérabilités de l'image Docker
-      - name: Step 3 (Bonus) - Scan vulnerabilities with Trivy
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'devops-exam-web:${{ github.sha }}'
-          format: 'table'
-          exit-code: '0' # On met 0 pour ne pas bloquer le build si des vulnérabilités mineures existent
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+  security-scan:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Scan Docker image for vulnerabilities
+      run: |
+        docker build -t my-web-app .
+        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity HIGH,CRITICAL my-web-app

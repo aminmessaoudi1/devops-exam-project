@@ -1,3 +1,20 @@
+## 📊 Project Board
+
+Created a GitHub Project Board with 8 issues organized into columns:
+- **To Do**: #15, #17
+- **In Progress**: #11
+- **Review**: #18
+- **Done**: #6, #12, #14, #16
+
+## 🔒 Branch Protection
+
+Protected the `main` branch:
+- Require pull request before merging
+- Require status checks to pass
+
+## 👥 Pull Request Reviews
+
+All pull requests were reviewed and approved with comments.
 # DevOps Exam Project
 
 ## Description
@@ -11,6 +28,16 @@ Il démontre l'utilisation des pratiques de développement collaboratif avec Git
 - `html/` : Fichiers HTML
 - `css/` : Feuilles de style
 - `js/` : Scripts JavaScript
+
+## Étapes d'installation (Docker)
+Pour lancer le projet localement avec Docker Compose, suivez ces étapes :
+1. Assurez-vous que Docker et Docker Compose sont installés sur votre machine.
+2. Clonez ce dépôt.
+3. À la racine du projet, exécutez la commande suivante :
+   ```bash
+   docker-compose up -d
+   ```
+4. Ouvrez votre navigateur et accédez à `http://localhost:8080`.
 
 ## Commandes Git Utilisées
 Voici un aperçu des commandes Git principales utilisées au cours du projet :

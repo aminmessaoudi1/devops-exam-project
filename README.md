@@ -1,3 +1,20 @@
+## 📊 Project Board
+
+Created a GitHub Project Board with 8 issues organized into columns:
+- **To Do**: #15, #17
+- **In Progress**: #11
+- **Review**: #18
+- **Done**: #6, #12, #14, #16
+
+## 🔒 Branch Protection
+
+Protected the `main` branch:
+- Require pull request before merging
+- Require status checks to pass
+
+## 👥 Pull Request Reviews
+
+All pull requests were reviewed and approved with comments.
 # DevOps Exam Project
 
 ## Description
